@@ -24,13 +24,13 @@ export const getQueryParams = (possibleQueryParams: Array<string>): QueryParams 
  * It is advised to set up a raise on error policy which will return the payload when the error variable == true
  * @param  queryParams          The keys the values to get are stored with
  * @param  settings             Object containing the settings for getting the variables
- * @param  settings.validator   The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. The keys of the validator should be identical to the queryparam keys.
+ * @param  settings.validator   The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. The keys of the validator should be identical to the queryparam keys.
  * @return                      A boolean indicating whether an invalid query param was detected or not
  */
 export const validateQueryParams = (queryParams: QueryParams, {
   validator = {},
 }: {
-  validator?: {[key: string]: Function},
+  validator?: {[key: string]: (key: string) => boolean | string},
 }) => {
   const error = {
     error: false,
@@ -41,10 +41,12 @@ export const validateQueryParams = (queryParams: QueryParams, {
 
   Object.keys(queryParams).forEach((key: string): void => {
 		if (queryParams[key] !== undefined && queryParams[key] !== null && validator[key]) {
-      if (!validator[key](queryParams[key])) {
+      const validatorResponse: boolean | string = validator[key](queryParams[key]);
+
+      if (validatorResponse === false || typeof validatorResponse === 'string' && validatorResponse !== '') {
         error.payload.errors = [...error.payload.errors, {
           title: `Invalid ${key} query parameter`,
-          message: `Invalid ${key} parameter. You passed "${queryParams[key]}".`,
+          message: validatorResponse || `Invalid ${key} parameter. You passed "${queryParams[key]}".`,
           source: key,
         }];
       }

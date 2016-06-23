@@ -72,8 +72,8 @@ export const getVariables = (keys: Array<string>, {
 }: {
   prefix?: string,
   defaultValues: {[key: string]: any},
-  parser?: {[key: string]: Function}
-}) => keys.reduce((variables: Object, key: string): Object => {
+  parser?: {[key: string]: (value: any) => any},
+}) => keys.reduce((variables: {[key: string]: any}, key: string): {[key: string]: any} => {
   const variable: ?string = context.getVariable(prefix + key);
 
   if (variable !== null) {
