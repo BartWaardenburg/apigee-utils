@@ -41,7 +41,7 @@ It is advised to set up a raise on error policy which will return the payload wh
 
 -   `queryParams` **QueryParams** The keys the values to get are stored with
 -   `settings`  Object containing the settings for getting the variables
-    -   `settings.validator`  The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. The keys of the validator should be identical to the queryparam keys.
+    -   `settings.validator`  The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. The keys of the validator should be identical to the queryparam keys.
 -   `$1` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
     -   `$1.validator`   (optional, default `{}`)
 
