@@ -24,13 +24,13 @@ export const getQueryParams = (possibleQueryParams: Array<string>): QueryParams 
  * It is advised to set up a raise on error policy which will return the payload when the error variable == true
  * @param  queryParams          The keys the values to get are stored with
  * @param  settings             Object containing the settings for getting the variables
- * @param  settings.validator   The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. The keys of the validator should be identical to the queryparam keys.
+ * @param  settings.validator   The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. It is also possible to return mutliple error messages as an array of strings. The keys of the validator should be identical to the queryparam keys.
  * @return                      A boolean indicating whether an invalid query param was detected or not
  */
 export const validateQueryParams = (queryParams: QueryParams, {
   validator = {},
 }: {
-  validator?: {[key: string]: (key: string) => boolean | string},
+  validator?: {[key: string]: (key: string) => boolean | string | Array<string>},
 }) => {
   const error = {
     error: false,
@@ -41,14 +41,12 @@ export const validateQueryParams = (queryParams: QueryParams, {
 
   Object.keys(queryParams).forEach((key: string): void => {
 		if (queryParams[key] !== undefined && queryParams[key] !== null && validator[key]) {
-      const validatorResponse: boolean | string = validator[key](queryParams[key]);
+      const validatorResponse: boolean | string | Array<string> = validator[key](queryParams[key]);
 
       if (validatorResponse === false || typeof validatorResponse === 'string' && validatorResponse !== '') {
-        error.payload.errors = [...error.payload.errors, {
-          title: `Invalid ${key} query parameter`,
-          message: validatorResponse || `Invalid ${key} parameter. You passed "${queryParams[key]}".`,
-          source: key,
-        }];
+        error.payload.errors = !Array.isArray(validatorResponse) ?
+          [...error.payload.errors, createErrorObject(key, queryParams[key], validatorResponse)] :
+          [...error.payload.errors, ...validatorResponse.map((singleValidatorResponse: string) => createErrorObject(key, queryParams[key], singleValidatorResponse))];
       }
     }
 	});
@@ -71,6 +69,16 @@ export const validateQueryParams = (queryParams: QueryParams, {
 
   return error.error;
 };
+
+const createErrorObject = (key: string, value: any, message: false | string): {
+  title: string,
+  message: string,
+  source: string,
+} => ({
+  title: `Invalid ${key} query parameter`,
+  message: message || `Invalid ${key} parameter. You passed "${value}".`,
+  source: key,
+});
 
 /**
  * This will store a value in the Apigee flow
