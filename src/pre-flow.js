@@ -30,7 +30,7 @@ export const getQueryParams = (possibleQueryParams: Array<string>): QueryParams 
 export const validateQueryParams = (queryParams: QueryParams, {
   validator = {},
 }: {
-  validator?: {[key: string]: (key: string) => boolean | string | Array<string>},
+  validator?: {[key: string]: (value: string) => boolean | string | Array<string>},
 }) => {
   const error = {
     error: false,
@@ -42,11 +42,16 @@ export const validateQueryParams = (queryParams: QueryParams, {
   Object.keys(queryParams).forEach((key: string): void => {
 		if (queryParams[key] !== undefined && queryParams[key] !== null && validator[key]) {
       const validatorResponse: boolean | string | Array<string> = validator[key](queryParams[key]);
+      const invalidResponse: boolean = validatorResponse === false ||
+        typeof validatorResponse === 'string' && validatorResponse !== '' ||
+        Array.isArray(validatorResponse) && !validatorResponse.length;
 
-      if (validatorResponse === false || typeof validatorResponse === 'string' && validatorResponse !== '') {
-        error.payload.errors = !Array.isArray(validatorResponse) ?
-          [...error.payload.errors, createErrorObject(key, queryParams[key], validatorResponse)] :
-          [...error.payload.errors, ...validatorResponse.map((singleValidatorResponse: string) => createErrorObject(key, queryParams[key], singleValidatorResponse))];
+      if (invalidResponse) {
+        const errorMessage: string | Array<string> = typeof validatorResponse === 'boolean' ? '' : validatorResponse;
+
+        error.payload.errors = !Array.isArray(errorMessage) ?
+          [...error.payload.errors, createErrorObject(key, queryParams[key], errorMessage)] :
+          [...error.payload.errors, ...errorMessage.map((singleErrorMessage: string) => createErrorObject(key, queryParams[key], singleErrorMessage))];
       }
     }
 	});
@@ -70,15 +75,31 @@ export const validateQueryParams = (queryParams: QueryParams, {
   return error.error;
 };
 
-const createErrorObject = (key: string, value: any, message: false | string): {
+/**
+ * This will create the default error message
+ * @param  key      The key of the query parameter
+ * @param  value    The value of the query parameter
+ * @param  message  The custom message to use
+ * @return          A default error object
+ */
+const createErrorObject = (key: string, value: any, message: string): {
   title: string,
   message: string,
   source: string,
 } => ({
   title: `Invalid ${key} query parameter`,
-  message: message || `Invalid ${key} parameter. You passed "${value}".`,
+  message: message === '' ? `Invalid ${key} parameter. You passed "${value}".` : message,
   source: key,
 });
+
+/**
+ * This will do a simple check if the passed string is a stringified boolean or not
+ * @param name	The name of the variable to check
+ * @param value	The value of the variable to check
+ * @return      A default error message or an empty string
+ */
+export const validateBoolean = (name: string, value: string): string =>
+	value !== 'true' && value !== 'false' ? `Valid ${name} parameters are "true" and "false". You passed "${value}".` : '';
 
 /**
  * This will store a value in the Apigee flow

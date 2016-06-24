@@ -41,11 +41,34 @@ It is advised to set up a raise on error policy which will return the payload wh
 
 -   `queryParams` **QueryParams** The keys the values to get are stored with
 -   `settings`  Object containing the settings for getting the variables
-    -   `settings.validator`  The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. The keys of the validator should be identical to the queryparam keys.
+    -   `settings.validator`  The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. It is also possible to return mutliple error messages as an array of strings. The keys of the validator should be identical to the queryparam keys.
 -   `$1` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
     -   `$1.validator`   (optional, default `{}`)
 
 Returns **** A boolean indicating whether an invalid query param was detected or not
+
+### createErrorObject
+
+This will create the default error message
+
+**Parameters**
+
+-   `key` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The key of the query parameter
+-   `value` **Any** The value of the query parameter
+-   `message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The custom message to use
+
+Returns **** A default error object
+
+### validateBoolean
+
+This will do a simple check if the passed string is a stringified boolean or not
+
+**Parameters**
+
+-   `name` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the variable to check
+-   `value` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The value of the variable to check
+
+Returns **** A default error message or an empty string
 
 ### setVariable
 
