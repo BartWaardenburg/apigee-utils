@@ -6,6 +6,7 @@ export {
   validateQueryParams,
   setVariable,
   setVariables,
+  validateBoolean,
 } from './pre-flow';
 
 export {
