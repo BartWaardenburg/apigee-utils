@@ -7,6 +7,8 @@ export {
   setVariable,
   setVariables,
   validateBoolean,
+  validateEnum,
+  validateMultipleEnum,
 } from './pre-flow';
 
 export {

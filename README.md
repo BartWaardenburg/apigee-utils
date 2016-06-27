@@ -70,6 +70,31 @@ This will do a simple check if the passed string is a stringified boolean or not
 
 Returns **** A default error message or an empty string
 
+### validateEnum
+
+This will do a simple check if the passed value is one of the valid values
+
+**Parameters**
+
+-   `name` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the variable to check
+-   `value` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The value of the variable to check
+-   `validValues` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The options for value
+
+Returns **** A default error message or an empty string
+
+### validateMultipleEnum
+
+This will do a simple check if the passed string of values contains one or more valid values
+
+**Parameters**
+
+-   `name` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the variable to check
+-   `value`  The value of the variable to check
+-   `values` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `validValues` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The options for value
+
+Returns **** A default error message or an empty string
+
 ### setVariable
 
 This will store a value in the Apigee flow

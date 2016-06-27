@@ -102,6 +102,27 @@ export const validateBoolean = (name: string, value: string): string =>
 	value !== 'true' && value !== 'false' ? `Valid ${name} parameters are "true" and "false". You passed "${value}".` : '';
 
 /**
+ * This will do a simple check if the passed value is one of the valid values
+ * @param name	      The name of the variable to check
+ * @param value	      The value of the variable to check
+ * @param validValues	The options for value
+ * @return            A default error message or an empty string
+ */
+export const validateEnum = (name: string, value: string, validValues: Array<string>): string =>
+  validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
+
+/**
+ * This will do a simple check if the passed string of values contains one or more valid values
+ * @param name	      The name of the variable to check
+ * @param value	      The value of the variable to check
+ * @param validValues	The options for value
+ * @return            A default error message or an empty string
+ */
+export const validateMultipleEnum = (name: string, values: string, validValues: Array<string>): string =>
+  !values.split(',').every((value: string): boolean => validValues.includes(value)) ?
+    `Valid ${name} parameters are ${validValues.join(', ')} seperated by just a ",". You passed "${values}".` : '';
+
+/**
  * This will store a value in the Apigee flow
  * @param  key                    The key the value should be stored in
  * @param  value                  The value to store
