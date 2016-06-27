@@ -114,7 +114,7 @@ export const validateEnum = (name: string, value: string, validValues: Array<str
 /**
  * This will do a simple check if the passed string of values contains one or more valid values
  * @param name	      The name of the variable to check
- * @param value	      The value of the variable to check
+ * @param values	    The values of the variable to check (must be a string seperated by commas)
  * @param validValues	The options for value
  * @return            A default error message or an empty string
  */
