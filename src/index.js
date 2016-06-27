@@ -3,6 +3,8 @@
 export {
   getQueryParam,
   getQueryParams,
+  setQueryParam,
+  setQueryParams,
   validateQueryParams,
   setVariable,
   setVariables,

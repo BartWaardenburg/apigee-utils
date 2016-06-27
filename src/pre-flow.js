@@ -20,6 +20,20 @@ export const getQueryParams = (possibleQueryParams: Array<string>): QueryParams 
   }), {});
 
 /**
+ * This will set a query parameter to the provided value
+ * @param  key   The key of the queryparam to set
+ * @param  value The value to set the queryparam to
+ */
+export const setQueryParam = (key: string, value: any): void => context.setVariable(`request.queryparam.${key}`, value);
+
+/**
+ * This will convert an object with key value pairs to query parameters
+ * @param  queryParams   An object containing key value pairs to be used as query parameters
+ */
+export const setQueryParams = (queryParams: {[key: string]: any}): void =>
+  Object.keys(queryParams).forEach((key: string): void => setQueryParam(key, queryParams[key]));
+
+/**
  * This will validate a set of query parameters and will set a error variable in the apigee with an errorpayload variable which can be send down to the client
  * It is advised to set up a raise on error policy which will return the payload when the error variable == true
  * @param  queryParams          The keys the values to get are stored with

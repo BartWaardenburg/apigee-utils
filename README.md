@@ -32,6 +32,27 @@ This will get a set of queryParams from the passed url string
 
 Returns **** An object containing values for the passed in queryparams
 
+### setQueryParam
+
+This will set a query parameter to the provided value
+
+**Parameters**
+
+-   `key` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The key of the queryparam to set
+-   `value` **Any** The value to set the queryparam to
+
+Returns **** 
+
+### setQueryParams
+
+This will convert an object with key value pairs to query parameters
+
+**Parameters**
+
+-   `queryParams` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object containing key value pairs to be used as query parameters
+
+Returns **** 
+
 ### validateQueryParams
 
 This will validate a set of query parameters and will set a error variable in the apigee with an errorpayload variable which can be send down to the client
@@ -89,8 +110,7 @@ This will do a simple check if the passed string of values contains one or more 
 **Parameters**
 
 -   `name` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the variable to check
--   `value`  The value of the variable to check
--   `values` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `values` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The values of the variable to check (must be a string seperated by commas)
 -   `validValues` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The options for value
 
 Returns **** A default error message or an empty string
