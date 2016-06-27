@@ -4,20 +4,31 @@ type QueryParams = {[key: string]: any};
 /**
  * This will get a queryParam from the passed url string
  * @param  queryParamKey  The key for the queryParam
+ * @param  defaultValue   The default value to return when nothing is available
  * @return                The value of the queryParam
  */
-export const getQueryParam = (queryParamKey: string): string => context.getVariable('request.queryparam.' + queryParamKey);
+export const getQueryParam = (queryParamKey: string, defaultValue: ?string): ?string => {
+  const queryParam = context.getVariable('request.queryparam.' + queryParamKey);
+
+  return queryParam === undefined || queryParam === null ? defaultValue : queryParam;
+};
 
 /**
  * This will get a set of queryParams from the passed url string
- * @param  possibleQueryParams  An array containing possible queryparams
- * @return                      An object containing values for the passed in queryparams
+ * @param  possibleQueryParams    An array containing possible queryparams
+ * @param  settings               Object containing the settings for getting the queryparams
+ * @param  settings.defaultValues The value to return when no value is found. The keys of the default values should be identical to the queryparam keys.
+ * @return                        An object containing values for the passed in queryparams
  */
-export const getQueryParams = (possibleQueryParams: Array<string>): QueryParams =>
+export const getQueryParams = (possibleQueryParams: Array<string>, {
+  defaultValues = {},
+}: {
+  defaultValues:  {[key: string]: string},
+}) =>
   possibleQueryParams.reduce((queryParams: QueryParams, possibleQueryKey: string): QueryParams => ({
     ...queryParams,
-    [possibleQueryKey]: getQueryParam(possibleQueryKey),
-  }), {});
+    [possibleQueryKey]: getQueryParam(possibleQueryKey, defaultValues[possibleQueryKey]),
+  }), defaultValues);
 
 /**
  * This will set a query parameter to the provided value

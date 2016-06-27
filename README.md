@@ -19,6 +19,7 @@ This will get a queryParam from the passed url string
 **Parameters**
 
 -   `queryParamKey` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The key for the queryParam
+-   `defaultValue` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** The default value to return when nothing is available
 
 Returns **** The value of the queryParam
 
@@ -29,6 +30,10 @@ This will get a set of queryParams from the passed url string
 **Parameters**
 
 -   `possibleQueryParams` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** An array containing possible queryparams
+-   `settings`  Object containing the settings for getting the queryparams
+    -   `settings.defaultValues`  The value to return when no value is found. The keys of the default values should be identical to the queryparam keys.
+-   `$1` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `$1.defaultValues`   (optional, default `{}`)
 
 Returns **** An object containing values for the passed in queryparams
 
