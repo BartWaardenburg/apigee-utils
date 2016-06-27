@@ -37,6 +37,22 @@ This will get a set of queryParams from the passed url string
 
 Returns **** An object containing values for the passed in queryparams
 
+### createQueryParams
+
+This will convert an object with key value pairs to a new object with key value pairs
+
+**Parameters**
+
+-   `queryParams` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object containing key value pairs to be used as query parameters
+-   `settings`  Object containing the settings for creating the queryparams
+    -   `settings.renamer`  The name of the keys to rename. In a format of oldname: newname
+    -   `settings.defaultValues`  The value to return when no value is found. The keys of the default values should be identical to the queryparam keys.
+    -   `settings.transformer`  A transformer object contains functions which take a value and return a new value. The keys of the transformer should be identical to the queryparam keys.
+-   `$1` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+    -   `$1.renamer`   (optional, default `{}`)
+    -   `$1.defaultValues`   (optional, default `{}`)
+    -   `$1.transformer`   (optional, default `{}`)
+
 ### setQueryParam
 
 This will set a query parameter to the provided value
