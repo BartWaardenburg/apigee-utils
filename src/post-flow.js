@@ -6,11 +6,13 @@
  * @param  settings.characterEncoding Optionally convert the response to UTF-8
  * @return                            The response from the targetted API
  */
-export const getProxyResponse = ({characterEncoding}: {characterEncoding?: string}): any => {
+ // $FlowBug: Flow doesn't support default function parameter in combination with destructering
+export const getProxyResponse = ({characterEncoding = ''} = {characterEncoding: ''}): any => {
   const proxyResponse: string = characterEncoding === 'UTF-8' ? unescape(encodeURIComponent(context.proxyResponse.content)) : context.proxyResponse.content;
 
   return JSON.parse(proxyResponse);
 };
+// {characterEncoding?: string}
 
 /**
  * This will set the response to the provided content
@@ -18,13 +20,15 @@ export const getProxyResponse = ({characterEncoding}: {characterEncoding?: strin
  * @param  settings             Object containing the settings for setting the response
  * @param  settings.contentType An optional contenttype header to set for the response
  */
-export const setResponse = (content: any, {contentType}: {contentType: string}): void => {
+ // $FlowBug: Flow doesn't support default function parameter in combination with destructering
+export const setResponse = (content: any, {contentType = undefined} = {contentType: undefined}): void => {
   context.proxyResponse.content = JSON.stringify(content);
 
   if (contentType) {
     context.setVariable('response.header.content-type', contentType);
   }
 };
+// {contentType: string}
 
 /**
  * This will get a value from the Apigee flow
