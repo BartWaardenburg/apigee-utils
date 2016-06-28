@@ -35,14 +35,15 @@ export const setResponse = (content: any, {contentType}: {contentType: string}):
  * @param  settings.parser        The parser is a function which takes a value and transforms it to return something else
  * @return                        The value parsed from the apigee flow
  */
+// $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const getVariable = (key: string, {
   prefix =  '',
   defaultValue,
   parser,
-}: {
-  prefix?: string,
-  defaultValue?: any,
-  parser?: Function,
+} = {
+  prefix: '',
+  defaultValue: undefined,
+  parser: undefined,
 }) => {
   const rawVariable: ?string = context.getVariable(prefix + key);
   let variable: any;
@@ -55,6 +56,10 @@ export const getVariable = (key: string, {
 
   return variable;
 };
+// prefix?: string,
+// defaultValue?: any,
+// parser?: Function,
+
 
 /**
  * This will get a set of values from the Apigee flow
@@ -65,14 +70,15 @@ export const getVariable = (key: string, {
  * @param  settings.parser        The parser is an object containing functions which take a value and transforms it to return something else. The keys of the parser should be identical to the variable keys.
  * @return                        The values parsed from the apigee flow
  */
+// $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const getVariables = (keys: Array<string>, {
   prefix = '',
   defaultValues = {},
   parser = {},
-}: {
-  prefix?: string,
-  defaultValues: {[key: string]: any},
-  parser?: {[key: string]: (value: any) => any},
+} = {
+  prefix: '',
+  defaultValues: {},
+  parser: {},
 }) => keys.reduce((variables: {[key: string]: any}, key: string): {[key: string]: any} => {
   const variable: ?string = context.getVariable(prefix + key);
 
@@ -84,3 +90,6 @@ export const getVariables = (keys: Array<string>, {
 
   return variables;
 }, {});
+// prefix?: string,
+// defaultValues: {[key: string]: any},
+// parser?: {[key: string]: (value: any) => any},
