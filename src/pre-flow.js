@@ -101,8 +101,8 @@ export const validateQueryParams = (queryParams: QueryParams, {
 		if (queryParams[key] !== undefined && queryParams[key] !== null && validator[key]) {
       const validatorResponse: boolean | string | Array<string> = validator[key](queryParams[key]);
       const invalidResponse: boolean = validatorResponse === false ||
-        typeof validatorResponse === 'string' && validatorResponse !== '' ||
-        Array.isArray(validatorResponse) && !validatorResponse.length;
+        (typeof validatorResponse === 'string' && validatorResponse !== '') ||
+        (Array.isArray(validatorResponse) && !validatorResponse.length);
 
       if (invalidResponse) {
         const errorMessage: string | Array<string> = typeof validatorResponse === 'boolean' ? '' : validatorResponse;
@@ -115,6 +115,7 @@ export const validateQueryParams = (queryParams: QueryParams, {
 	});
 
   if (error.payload.errors.length) {
+    error.error = true;
     error.payload = {
       title: 'Invalid query parameter',
       message: 'One or more query parameters are invalid',
