@@ -80,7 +80,7 @@ export const setQueryParams = (queryParams: {[key: string]: any}): void =>
  * @param  queryParams          The keys the values to get are stored with
  * @param  settings             Object containing the settings for getting the variables
  * @param  settings.validator   The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. It is also possible to return mutliple error messages as an array of strings. The keys of the validator should be identical to the queryparam keys.
- * @return                      A boolean indicating whether an invalid query param was detected or not
+ * @return                      A boolean indicating whether the query param were valid or not
  */
 // $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const validateQueryParams = (queryParams: QueryParams, {
@@ -130,7 +130,7 @@ export const validateQueryParams = (queryParams: QueryParams, {
     prefix,
   });
 
-  return error.error;
+  return !error.error;
 };
 // validator?: {[key: string]: (value: string) => boolean | string | Array<string>},
 
