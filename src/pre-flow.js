@@ -85,8 +85,10 @@ export const setQueryParams = (queryParams: {[key: string]: any}): void =>
 // $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const validateQueryParams = (queryParams: QueryParams, {
   validator = {},
+  prefix = '',
 } = {
   validator: {},
+  prefix: '',
 }) => {
   const error = {
     error: false,
@@ -125,7 +127,7 @@ export const validateQueryParams = (queryParams: QueryParams, {
     error: error.error,
     errorpayload: JSON.stringify(error.payload),
   }, {
-    prefix: '',
+    prefix,
   });
 
   return error.error;
