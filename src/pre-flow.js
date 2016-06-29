@@ -170,7 +170,7 @@ export const validateBoolean = (name: string, value: string): string =>
  * @return            A default error message or an empty string
  */
 export const validateEnum = (name: string, value: string, validValues: Array<string>): string =>
-  validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
+  !validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
 
 /**
  * This will do a simple check if the passed string of values contains one or more valid values
