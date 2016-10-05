@@ -1,6 +1,70 @@
 /* @flow */
 
 /**
+ * This will log a message to the syslog variable
+ */
+export const logMessage = (): void => {
+	const apigeeVariables: Array<string> = [
+		'client.port',
+		'client.received.start.time',
+		'client.received.start.timestamp',
+		'message.path',
+		'message.querystring',
+		'message.uri',
+		'message.verb',
+		'message.version',
+		'message.reason.phrase',
+		'message.status.code',
+		'proxy.basepath',
+		'proxy.client.ip',
+		'proxy.pathsuffix',
+		'proxy.url',
+		'request.path',
+		'request.querystring',
+		'request.uri',
+		'request.url',
+		'request.verb',
+		'request.version',
+		'servicecallout.requesturi',
+		'target.basepath',
+		'target.copy.pathsuffix',
+		'target.copy.queryparams',
+		'target.name',
+		'response.reason.phrase',
+		'response.status.code',
+		'target.received.end.time',
+		'target.received.end.timestamp',
+		'target.received.start.time',
+		'target.received.start.timestamp',
+		'target.host',
+		'target.ip',
+		'target.port',
+		'target.scheme',
+		'error.content',
+		'error.message',
+		'error.state',
+		'log.message',
+		'application.basepath',
+		'proxy.name',
+		'proxy.basepath',
+		'proxy.pathsuffix',
+		'target.basepath',
+		'target.url',
+		'organization.name',
+		'apiproxy.name',
+		'apiproxy.revision',
+		'environment.name',
+		'messageid',
+	];
+	const syslogMessage: Object = apigeeVariables.reduce((message: Object, key: string): Object => ({
+		...message,
+		[key]: context.getVariable(key),
+	}), {});
+
+	context.setVariable('log.syslog.message', JSON.stringify(syslogMessage));
+};
+
+/**
  * This will get the response from the proxy
  * @param  settings                   Object containing the settings for getting the response from the proxy
  * @param  settings.characterEncoding Optionally convert the response to UTF-8
