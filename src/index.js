@@ -18,4 +18,5 @@ export {
   setResponse,
   getVariable,
   getVariables,
+  logMessage,
 } from './post-flow';
