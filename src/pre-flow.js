@@ -8,9 +8,9 @@ type QueryParams = {[key: string]: any};
  * @return                The value of the queryParam
  */
 export const getQueryParam = (queryParamKey: string, defaultValue: ?string): ?string => {
-  const queryParam = context.getVariable('request.queryparam.' + queryParamKey);
+	const queryParam = context.getVariable('request.queryparam.' + queryParamKey);
 
-  return queryParam === undefined || queryParam === null ? defaultValue : queryParam;
+	return queryParam === undefined || queryParam === null ? defaultValue : queryParam;
 };
 
 /**
@@ -20,16 +20,16 @@ export const getQueryParam = (queryParamKey: string, defaultValue: ?string): ?st
  * @param  settings.defaultValues The value to return when no value is found. The keys of the default values should be identical to the queryparam keys.
  * @return                        An object containing values for the passed in queryparams
  */
-// $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const getQueryParams = (possibleQueryParams: Array<string>, {
-  defaultValues = {},
+	defaultValues = {},
+}: {
+	defaultValues: {[key: string]: string},
 } = {
-  defaultValues: {},
+	defaultValues: {},
 }) => possibleQueryParams.reduce((queryParams: QueryParams, possibleQueryKey: string): QueryParams => ({
-    ...queryParams,
-    [possibleQueryKey]: getQueryParam(possibleQueryKey, defaultValues[possibleQueryKey]),
-  }), defaultValues);
-// defaultValues: {[key: string]: string}
+		...queryParams,
+		[possibleQueryKey]: getQueryParam(possibleQueryKey, defaultValues[possibleQueryKey]),
+	}), defaultValues);
 
 /**
  * This will convert an object with key value pairs to a new object with key value pairs
@@ -39,26 +39,26 @@ export const getQueryParams = (possibleQueryParams: Array<string>, {
  * @param  settings.defaultValues The value to return when no value is found. The keys of the default values should be identical to the queryparam keys.
  * @param  settings.transformer   A transformer object contains functions which take a value and return a new value. The keys of the transformer should be identical to the queryparam keys.
  */
-// $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const createQueryParams = (queryParams: {[key: string]: any}, {
-  renamer = {},
-  defaultValues = {},
-  transformer = {},
+	renamer = {},
+	defaultValues = {},
+	transformer = {},
+}: {
+	renamer: {[key: string]: string},
+	defaultValues: {[key: string]: string},
+	transformer: {[key: string]: any},
 } = {
-  renamer: {},
-  defaultValues: {},
-  transformer: {},
+	renamer: {},
+	defaultValues: {},
+	transformer: {},
 }) => Object.keys(queryParams).reduce((nextQueryParams, key) => ({
-  ...nextQueryParams,
-  [renamer[key] || key]: queryParams[key] !== undefined && queryParams[key] !== null ?
-    transformer[key] ?
-      transformer[key](queryParams[key]) :
-      queryParams[key] :
-    defaultValues[key],
+	...nextQueryParams,
+	[renamer[key] || key]: queryParams[key] !== undefined && queryParams[key] !== null ?
+		transformer[key] ?
+			transformer[key](queryParams[key]) :
+			queryParams[key] :
+		defaultValues[key],
 }), defaultValues);
-//   renamer: {[key: string]: string},
-//   defaultValues: {[key: string]: string},
-//   transformer: {[key: string]: any},
 
 /**
  * This will set a query parameter to the provided value
@@ -72,7 +72,7 @@ export const setQueryParam = (key: string, value: any): void => context.setVaria
  * @param  queryParams   An object containing key value pairs to be used as query parameters
  */
 export const setQueryParams = (queryParams: {[key: string]: any}): void =>
-  Object.keys(queryParams).forEach((key: string): void => setQueryParam(key, queryParams[key]));
+	Object.keys(queryParams).forEach((key: string): void => setQueryParam(key, queryParams[key]));
 
 /**
  * This will validate a set of query parameters and will set a error variable in the apigee with an errorpayload variable which can be send down to the client
@@ -82,59 +82,59 @@ export const setQueryParams = (queryParams: {[key: string]: any}): void =>
  * @param  settings.validator   The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. It is also possible to return mutliple error messages as an array of strings. The keys of the validator should be identical to the queryparam keys.
  * @return                      A boolean indicating whether the query param were valid or not
  */
-// $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const validateQueryParams = (queryParams: QueryParams, {
-  validator = {},
-  prefix = '',
+	validator = {},
+	prefix = '',
+}: {
+	validator?: {[key: string]: (value: string) => boolean | string | Array<string>},
+	prefix?: string,
 } = {
-  validator: {},
-  prefix: '',
+	validator: {},
+	prefix: '',
 }) => {
-  const error = {
-    error: false,
-    payload: {
-      errors: [],
-    },
-  };
+	const error = {
+		error: false,
+		payload: {
+			errors: [],
+		},
+	};
 
-  Object.keys(queryParams).forEach((key: string): void => {
+	Object.keys(queryParams).forEach((key: string): void => {
 		if (queryParams[key] !== undefined && queryParams[key] !== null && validator[key]) {
-      const validatorResponse: boolean | string | Array<string> = validator[key](queryParams[key]);
-      const invalidResponse: boolean = validatorResponse === false ||
-        typeof validatorResponse === 'string' && validatorResponse !== '' ||
-        Array.isArray(validatorResponse) && !!validatorResponse.length;
+			const validatorResponse: boolean | string | Array<string> = validator[key](queryParams[key]);
+			const invalidResponse: boolean = validatorResponse === false ||
+				typeof validatorResponse === 'string' && validatorResponse !== '' ||
+				Array.isArray(validatorResponse) && !!validatorResponse.length;
 
-      if (invalidResponse) {
-        const errorMessage: string | Array<string> = typeof validatorResponse === 'boolean' ? '' : validatorResponse;
+			if (invalidResponse) {
+				const errorMessage: string | Array<string> = typeof validatorResponse === 'boolean' ? '' : validatorResponse;
 
-        error.payload.errors = !Array.isArray(errorMessage) ?
-          [...error.payload.errors, createErrorObject(key, queryParams[key], errorMessage)] :
-          [...error.payload.errors, ...errorMessage.map((singleErrorMessage: string) => createErrorObject(key, queryParams[key], singleErrorMessage))];
-      }
-    }
+				error.payload.errors = !Array.isArray(errorMessage) ?
+					[...error.payload.errors, createErrorObject(key, queryParams[key], errorMessage)] :
+					[...error.payload.errors, ...errorMessage.map((singleErrorMessage: string) => createErrorObject(key, queryParams[key], singleErrorMessage))];
+			}
+		}
 	});
 
-  if (error.payload.errors.length) {
-    error.error = true;
-    error.payload = {
-      title: 'Invalid query parameter',
-      message: 'One or more query parameters are invalid',
-      statusCode: 400,
-      errors: error.payload.errors,
-    };
-  }
+	if (error.payload.errors.length) {
+		error.error = true;
+		error.payload = {
+			title: 'Invalid query parameter',
+			message: 'One or more query parameters are invalid',
+			statusCode: 400,
+			errors: error.payload.errors,
+		};
+	}
 
-  setVariables({
-    error: error.error,
-    errorpayload: JSON.stringify(error.payload),
-  }, {
-    prefix,
-  });
+	setVariables({
+		error: error.error,
+		errorpayload: JSON.stringify(error.payload),
+	}, {
+		prefix,
+	});
 
-  return !error.error;
+	return !error.error;
 };
-// validator?: {[key: string]: (value: string) => boolean | string | Array<string>},
-
 
 /**
  * This will create the default error message
@@ -144,13 +144,13 @@ export const validateQueryParams = (queryParams: QueryParams, {
  * @return          A default error object
  */
 const createErrorObject = (key: string, value: any, message: string): {
-  title: string,
-  message: string,
-  source: string,
+	title: string,
+	message: string,
+	source: string,
 } => ({
-  title: `Invalid ${key} query parameter`,
-  message: message === '' ? `Invalid ${key} parameter. You passed "${value}".` : message,
-  source: key,
+	title: `Invalid ${key} query parameter`,
+	message: message === '' ? `Invalid ${key} parameter. You passed "${value}".` : message,
+	source: key,
 });
 
 /**
@@ -170,7 +170,7 @@ export const validateBoolean = (name: string, value: string): string =>
  * @return            A default error message or an empty string
  */
 export const validateEnum = (name: string, value: string, validValues: Array<string>): string =>
-  !validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
+	!validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
 
 /**
  * This will do a simple check if the passed string of values contains one or more valid values
@@ -180,8 +180,8 @@ export const validateEnum = (name: string, value: string, validValues: Array<str
  * @return            A default error message or an empty string
  */
 export const validateMultipleEnum = (name: string, values: string, validValues: Array<string>): string =>
-  !values.split(',').every((value: string): boolean => validValues.includes(value)) ?
-    `Valid ${name} parameters are ${validValues.join(', ')} seperated by just a ",". You passed "${values}".` : '';
+	!values.split(',').every((value: string): boolean => validValues.includes(value)) ?
+		`Valid ${name} parameters are ${validValues.join(', ')} seperated by just a ",". You passed "${values}".` : '';
 
 /**
  * This will store a value in the Apigee flow
@@ -190,17 +190,17 @@ export const validateMultipleEnum = (name: string, values: string, validValues: 
  * @param  settings               Object containing the settings for setting the variable
  * @param  settings.prefix        A prefix which is used to store the value with
  */
-// $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const setVariable = (key: string, value: any, {
-  prefix = '',
+	prefix = '',
+}: {
+	prefix?: string,
 } = {
-  prefix: '',
+	prefix: '',
 }) => {
-  if (value !== undefined) {
+	if (value !== undefined) {
 		context.setVariable(prefix + key, value);
 	}
 };
-// prefix?: string,
 
 /**
  * This will store a set of values in the Apigee flow
@@ -208,16 +208,16 @@ export const setVariable = (key: string, value: any, {
  * @param  settings               Object containing the settings for setting the variables
  * @param  settings.prefix        A prefix which is used to store the value with
  */
-// $FlowBug: Flow doesn't support default function parameter in combination with destructering
 export const setVariables = (variables: {[key: string]: any}, {
-  prefix = '',
+	prefix = '',
+}: {
+	prefix?: string,
 } = {
-  prefix: '',
+	prefix: '',
 }) => Object.keys(variables).forEach((key: string) => {
-  if (variables[key] !== undefined && variables[key] !== null) {
-    setVariable(key, variables[key], {
-      prefix,
-    });
-  }
+	if (variables[key] !== undefined && variables[key] !== null) {
+		setVariable(key, variables[key], {
+			prefix,
+		});
+	}
 });
-// prefix?: string,
