@@ -80,7 +80,11 @@ export const logMessage = (additionalLogvalues: ?{[key: string]: string}): void 
 export const getProxyResponse = ({characterEncoding = ''}: {characterEncoding?: string} = {characterEncoding: ''}): any => {
 	const proxyResponse: string = characterEncoding === 'UTF-8' ? unescape(encodeURIComponent(context.proxyResponse.content)) : context.proxyResponse.content;
 
-	return JSON.parse(proxyResponse);
+	try {
+		return JSON.parse(proxyResponse);
+	} catch (e) {
+		return {};
+	}
 };
 
 /**
