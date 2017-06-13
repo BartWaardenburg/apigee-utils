@@ -1,6 +1,7 @@
 /* @flow */
 
 export {
+	getBody,
 	getQueryParam,
 	getQueryParams,
 	setQueryParam,
