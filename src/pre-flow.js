@@ -5,7 +5,11 @@ type QueryParams = {[key: string]: any};
  * This will get the post body from the request
  * @return The body of the request
  */
-export const getBody = (): any => JSON.parse(context.getVariable('request.content'));
+export const getBody = (): any => {
+	const body = context.getVariable('request.content');
+
+	return body ? JSON.parse(body) : undefined;
+};
 
 /**
  * This will get a queryParam from the passed url string
