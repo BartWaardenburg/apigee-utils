@@ -147,6 +147,11 @@ export const validateQueryParams = (queryParams: QueryParams, {
 };
 
 /**
+ * Works just like validateQueryParams but has a more generic name
+ */
+export const validateValues = validateQueryParams;
+
+/**
  * This will create the default error message
  * @param  key      The key of the query parameter
  * @param  value    The value of the query parameter

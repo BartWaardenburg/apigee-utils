@@ -7,6 +7,7 @@ export {
 	setQueryParam,
 	setQueryParams,
 	validateQueryParams,
+	validateValues,
 	setVariable,
 	setVariables,
 	validateBoolean,
