@@ -129,8 +129,8 @@ export const validateQueryParams = (queryParams: QueryParams, {
 	if (error.payload.errors.length) {
 		error.error = true;
 		error.payload = {
-			title: 'Invalid query parameter',
-			message: 'One or more query parameters are invalid',
+			title: 'Invalid parameter',
+			message: 'One or more parameters are invalid',
 			statusCode: 400,
 			errors: error.payload.errors,
 		};
@@ -174,8 +174,16 @@ const createErrorObject = (key: string, value: any, message: string): {
  * @param value	The value of the variable to check
  * @return      A default error message or an empty string
  */
-export const validateBoolean = (name: string, value: string): string =>
-	value !== 'true' && value !== 'false' ? `Valid ${name} parameters are "true" and "false". You passed "${value}".` : '';
+export const validateBoolean = ({
+	name,
+	value,
+	required,
+}: {
+	name: string,
+	value: string,
+	required: boolean,
+}): string =>
+	(required && value === undefined) || (value !== 'true' && value !== 'false') ? `Valid ${name} parameters are "true" and "false". You passed "${value}".` : '';
 
 /**
  * This will do a simple check if the passed value is one of the valid values
@@ -184,8 +192,18 @@ export const validateBoolean = (name: string, value: string): string =>
  * @param validValues	The options for value
  * @return            A default error message or an empty string
  */
-export const validateEnum = (name: string, value: string, validValues: Array<string>): string =>
-	!validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
+export const validateEnum = ({
+	name,
+	value,
+	required,
+	validValues,
+}: {
+	name: string,
+	value: string,
+	required: boolean,
+	validValues: Array<string>,
+}): string =>
+	(required && value === undefined) || !validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
 
 /**
  * This will do a simple check if the passed string of values contains one or more valid values
@@ -194,8 +212,18 @@ export const validateEnum = (name: string, value: string, validValues: Array<str
  * @param validValues	The options for value
  * @return            A default error message or an empty string
  */
-export const validateMultipleEnum = (name: string, values: string, validValues: Array<string>): string =>
-	!values.split(',').every((value: string): boolean => validValues.includes(value)) ?
+export const validateMultipleEnum = ({
+	name,
+	values,
+	required,
+	validValues,
+}: {
+	name: string,
+	values: string,
+	required: boolean,
+	validValues: Array<string>,
+}): string =>
+	(required && values === undefined) || !values.split(',').every((value: string): boolean => validValues.includes(value)) ?
 		`Valid ${name} parameters are ${validValues.join(', ')} seperated by just a ",". You passed "${values}".` : '';
 
 /**
