@@ -110,7 +110,7 @@ export const validateQueryParams = (queryParams: QueryParams, {
 	};
 
 	Object.keys(queryParams).forEach((key: string): void => {
-		if (queryParams[key] !== undefined && queryParams[key] !== null && validator[key]) {
+		if (validator[key]) {
 			const validatorResponse: boolean | string | Array<string> = validator[key](queryParams[key]);
 			const invalidResponse: boolean = validatorResponse === false ||
 				typeof validatorResponse === 'string' && validatorResponse !== '' ||

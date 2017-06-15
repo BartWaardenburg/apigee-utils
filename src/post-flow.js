@@ -106,7 +106,6 @@ export const setResponse = (content: any, {
 		context.setVariable('response.header.content-type', contentType);
 	}
 };
-// {contentType: string}
 
 /**
  * This will get a value from the Apigee flow
