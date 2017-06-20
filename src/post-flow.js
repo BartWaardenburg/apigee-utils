@@ -5,61 +5,44 @@
  */
 export const logMessage = (additionalLogvalues: ?{[key: string]: string}): void => {
 	const apigeeVariables: Array<string> = [
-		'client.port',
+		'apiproxy.name',
+		'apiproxy.revision',
 		'client.received.start.time',
 		'client.received.start.timestamp',
-		'message.path',
-		'message.querystring',
-		'message.uri',
-		'message.verb',
-		'message.version',
-		'message.reason.phrase',
-		'message.status.code',
-		'proxy.basepath',
-		'proxy.client.ip',
-		'proxy.pathsuffix',
-		'proxy.url',
-		'request.path',
-		'request.querystring',
-		'request.uri',
-		'request.url',
-		'request.verb',
-		'request.version',
-		'servicecallout.requesturi',
-		'target.basepath',
-		'target.copy.pathsuffix',
-		'target.copy.queryparams',
-		'target.name',
-		'response.reason.phrase',
-		'response.status.code',
-		'target.received.end.time',
-		'target.received.end.timestamp',
-		'target.received.start.time',
-		'target.received.start.timestamp',
-		'target.host',
-		'target.ip',
-		'target.port',
-		'target.scheme',
+		'environment.name',
 		'error.content',
 		'error.message',
 		'error.state',
 		'log.message',
-		'application.basepath',
-		'proxy.name',
-		'proxy.basepath',
-		'proxy.pathsuffix',
-		'target.basepath',
-		'target.url',
-		'organization.name',
-		'apiproxy.name',
-		'apiproxy.revision',
-		'environment.name',
+		'message.reason.phrase',
+		'message.status.code',
 		'messageid',
+		'proxy.client.ip',
+		'proxy.url',
+		'request.url',
+		'response.reason.phrase',
+		'response.status.code',
+		'servicecallout.requesturi',
+		'target.ip',
+		'target.name',
+		'target.received.end.time',
+		'target.received.end.timestamp',
+		'target.received.start.time',
+		'target.received.start.timestamp',
+		'target.url',
 	];
-	let syslogMessage: Object = apigeeVariables.reduce((message: Object, key: string): Object => ({
-		...message,
-		[key]: context.getVariable(key),
-	}), {});
+	let syslogMessage: Object = apigeeVariables.reduce((logMessage: Object, key: string): Object => {
+		const value: * = context.getVariable(key);
+		const nextLogMessage: Object = logMessage;
+
+		key.split('.').reduce((nextLogMessage: Object, part: string, index: number, path: Array<string>): Object => {
+			nextLogMessage[part] = index >= (path.length -1) ? value : (nextLogMessage[part] || {});
+
+			return nextLogMessage[part];
+		}, nextLogMessage);
+
+		return nextLogMessage;
+	}, {});
 
 	if (additionalLogvalues) {
 		syslogMessage = {
