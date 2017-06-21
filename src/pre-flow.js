@@ -223,7 +223,7 @@ export const validateMultipleEnum = ({
 	required: boolean,
 	validValues: Array<string>,
 }): string =>
-	(required && values === undefined) || !values.split(',').every((value: string): boolean => validValues.includes(value)) ?
+	(required && values === undefined) || (values && !values.split(',').every((value: string): boolean => validValues.includes(value))) ?
 		`Valid ${name} parameters are ${validValues.join(', ')} seperated by just a ",". You passed "${values}".` : '';
 
 /**
