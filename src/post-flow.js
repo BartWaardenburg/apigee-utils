@@ -2,6 +2,7 @@
 
 /**
  * This will log a message to the syslog variable
+ * @param additionalLogvalues Object containing additional key values to be logged
  */
 export const logMessage = (additionalLogvalues: ?{[key: string]: string}): void => {
 	const apigeeVariables: Array<string> = [
@@ -111,7 +112,7 @@ export const getVariable = (key: string, {
 	prefix: '',
 	defaultValue: undefined,
 	parser: undefined,
-}) => {
+}): any => {
 	const rawVariable: ?string = context.getVariable(prefix + key);
 	let variable: any;
 
@@ -145,7 +146,7 @@ export const getVariables = (keys: Array<string>, {
 	prefix: '',
 	defaultValues: {},
 	parser: {},
-}) => keys.reduce((variables: {[key: string]: any}, key: string): {[key: string]: any} => {
+}): {[key: string]: any} => keys.reduce((variables: {[key: string]: any}, key: string): {[key: string]: any} => {
 	const variable: ?string = context.getVariable(prefix + key);
 
 	if (variable !== null) {

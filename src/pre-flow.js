@@ -36,7 +36,7 @@ export const getQueryParams = (possibleQueryParams: Array<string>, {
 	defaultValues: {[key: string]: string},
 } = {
 	defaultValues: {},
-}) => possibleQueryParams.reduce((queryParams: QueryParams, possibleQueryKey: string): QueryParams => ({
+}): {[key: string]: any} => possibleQueryParams.reduce((queryParams: QueryParams, possibleQueryKey: string): QueryParams => ({
 		...queryParams,
 		[possibleQueryKey]: getQueryParam(possibleQueryKey, defaultValues[possibleQueryKey]),
 	}), defaultValues);
@@ -61,7 +61,7 @@ export const createQueryParams = (queryParams: {[key: string]: any}, {
 	renamer: {},
 	defaultValues: {},
 	transformer: {},
-}) => Object.keys(queryParams).reduce((nextQueryParams, key) => ({
+}): {[key: string]: any} => Object.keys(queryParams).reduce((nextQueryParams, key) => ({
 	...nextQueryParams,
 	[renamer[key] || key]: queryParams[key] !== undefined && queryParams[key] !== null ?
 		transformer[key] ?
@@ -90,6 +90,7 @@ export const setQueryParams = (queryParams: {[key: string]: any}): void =>
  * @param  queryParams          The keys the values to get are stored with
  * @param  settings             Object containing the settings for getting the variables
  * @param  settings.validator   The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. It is also possible to return mutliple error messages as an array of strings. The keys of the validator should be identical to the queryparam keys.
+ * @param  settings.prefix      The prefix to use for the variables which will be used to set the potential error messages
  * @return                      A boolean indicating whether the query param were valid or not
  */
 export const validateQueryParams = (queryParams: QueryParams, {
@@ -101,7 +102,7 @@ export const validateQueryParams = (queryParams: QueryParams, {
 } = {
 	validator: {},
 	prefix: '',
-}) => {
+}): boolean => {
 	const error = {
 		error: false,
 		payload: {
@@ -170,9 +171,11 @@ const createErrorObject = (key: string, value: any, message: string): {
 
 /**
  * This will do a simple check if the passed string is a stringified boolean or not
- * @param name	The name of the variable to check
- * @param value	The value of the variable to check
- * @return      A default error message or an empty string
+ * @param settings          An object containing the options for validation
+ * @param settings.name     The name of the variable to check
+ * @param settings.value    The value of the variable to check
+ * @param settings.required Whether it's required (allow undefined values or not)
+ * @return                  A default error message or an empty string
  */
 export const validateBoolean = ({
 	name,
@@ -187,10 +190,12 @@ export const validateBoolean = ({
 
 /**
  * This will do a simple check if the passed value is one of the valid values
- * @param name	      The name of the variable to check
- * @param value	      The value of the variable to check
- * @param validValues	The options for value
- * @return            A default error message or an empty string
+ * @param settings             An object containing the options for validation
+ * @param settings.name        The name of the variable to check
+ * @param settings.value       The value of the variable to check
+ * @param settings.validValues The possible values
+ * @param settings.required    Whether it's required (allow undefined values or not)
+ * @return                     A default error message or an empty string
  */
 export const validateEnum = ({
 	name,
@@ -207,10 +212,12 @@ export const validateEnum = ({
 
 /**
  * This will do a simple check if the passed string of values contains one or more valid values
- * @param name	      The name of the variable to check
- * @param values	    The values of the variable to check (must be a string seperated by commas)
- * @param validValues	The options for value
- * @return            A default error message or an empty string
+ * @param settings             An object containing the options for validation
+ * @param settings.name        The name of the variable to check
+ * @param settings.values      The values of the variable to check (must be a string seperated by commas)
+ * @param settings.required    Whether it's required (allow undefined values or not)
+ * @param settings.validValues The possible values
+ * @return                     A default error message or an empty string
  */
 export const validateMultipleEnum = ({
 	name,
