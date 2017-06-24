@@ -246,7 +246,7 @@ export const setVariable = (key: string, value: any, {
 	prefix?: string,
 } = {
 	prefix: '',
-}) => {
+}): void => {
 	if (value !== undefined) {
 		context.setVariable(prefix + key, value);
 	}
@@ -264,7 +264,7 @@ export const setVariables = (variables: {[key: string]: any}, {
 	prefix?: string,
 } = {
 	prefix: '',
-}) => Object.keys(variables).forEach((key: string) => {
+}): void => Object.keys(variables).forEach((key: string) => {
 	if (variables[key] !== undefined && variables[key] !== null) {
 		setVariable(key, variables[key], {
 			prefix,
