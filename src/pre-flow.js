@@ -207,8 +207,9 @@ export const validateEnum = ({
 	value: string,
 	required: boolean,
 	validValues: Array<string>,
-}): string =>
-	(required && value === undefined) || !validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
+}): string => !required && (value !== undefined && validValues.includes(value)) ? 
+	'' : value === undefined || !validValues.includes(value) ? 
+  	`Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
 
 /**
  * This will do a simple check if the passed string of values contains one or more valid values
