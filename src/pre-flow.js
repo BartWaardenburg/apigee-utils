@@ -186,7 +186,7 @@ export const validateBoolean = ({
 	value: string,
 	required: boolean,
 }): string =>
-	(required && value === undefined) || (value !== 'true' && value !== 'false') ? `Valid ${name} parameters are "true" and "false". You passed "${value}".` : '';
+	(required && value === undefined) || (value !== undefined && value !== 'true' && value !== 'false') ? `Valid ${name} parameters are "true" and "false". You passed "${value}".` : '';
 
 /**
  * This will do a simple check if the passed value is one of the valid values
@@ -208,7 +208,7 @@ export const validateEnum = ({
 	required: boolean,
 	validValues: Array<string>,
 }): string =>
-	(required && value === undefined) || !validValues.includes(value) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed "${value}".` : '';
+	(required && value === undefined) || (value !== undefined && !validValues.includes(value)) ? `Valid ${name} parameters are ${validValues.join(', ')}. You passed ${value}.` : '';
 
 /**
  * This will do a simple check if the passed string of values contains one or more valid values
@@ -230,8 +230,8 @@ export const validateMultipleEnum = ({
 	required: boolean,
 	validValues: Array<string>,
 }): string =>
-	(required && values === undefined) || (values && !values.split(',').every((value: string): boolean => validValues.includes(value))) ?
-		`Valid ${name} parameters are ${validValues.join(', ')} seperated by just a ",". You passed "${values}".` : '';
+	(required && values === undefined) || (values !== undefined && !values.split(',').every((value: string): boolean => validValues.includes(value))) ?
+		`Valid ${name} parameters are ${validValues.join(', ')} seperated by just a ,. You passed ${values}.` : '';
 
 /**
  * This will store a value in the Apigee flow

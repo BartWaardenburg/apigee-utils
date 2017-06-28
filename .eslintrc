@@ -5,7 +5,8 @@
 		"sourceType": "module"
 	},
 	"plugins": [
-		"flowtype"
+		"flowtype",
+		"jest"
 	],
 	"rules": {
 		"no-constant-condition": 0,
@@ -55,6 +56,7 @@
 		"commonjs": true,
 		"es6": true,
 		"node": true,
+		"jest/globals": true
 	},
 	"extends": [
 		"eslint:recommended",

@@ -4,10 +4,12 @@
   "description": "A set of utility functions to ease javascript development on the Apigee Edge api platform",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "npm run lint && npm run flow && npm run build",
-    "build": "babel ./src -d ./lib --ignore '.spec,.interface'",
+    "prepare": "npm run lint && npm run flow && npm run test && npm run build",
+    "build": "babel ./src -d ./lib --ignore '.test,.interface'",
     "lint": "eslint src/**/*.js",
     "flow": "flow check",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch",
     "docs": "documentation readme ./src/index.js --section 'Reference'"
   },
   "repository": {
@@ -27,17 +29,20 @@
   },
   "homepage": "https://github.com/BartWaardenburg/apigee-utils#readme",
   "devDependencies": {
-    "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-plugin-array-includes": "^2.0.3",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
     "babel-register": "^6.24.1",
+    "chai": "^4.0.2",
     "documentation": "^4.0.0-rc.1",
     "eslint": "^4.0.0",
     "eslint-plugin-flowtype": "^2.34.0",
-    "flow-bin": "^0.48.0"
-  }
+    "eslint-plugin-jest": "^20.0.3",
+    "flow-bin": "^0.48.0",
+    "jest": "^20.0.4"
+  },
+  "dependencies": {}
 }

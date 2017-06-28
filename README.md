@@ -160,6 +160,8 @@ This will store a value in the Apigee flow
 -   `settings` **any** Object containing the settings for setting the variable
     -   `settings.prefix`  A prefix which is used to store the value with
 
+Returns **void** 
+
 ### setVariables
 
 This will store a set of values in the Apigee flow
@@ -169,6 +171,8 @@ This will store a set of values in the Apigee flow
 -   `variables` **{}** An object containing key value pairs to store
 -   `settings` **any** Object containing the settings for setting the variables
     -   `settings.prefix`  A prefix which is used to store the value with
+
+Returns **void** 
 
 ### logMessage
 
