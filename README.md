@@ -149,6 +149,19 @@ This will do a simple check if the passed string of values contains one or more 
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** A default error message or an empty string
 
+### validateBounds
+
+This will do a simple check if the passed string of values is a valid latitude and longitude map bounds
+
+**Parameters**
+
+-   `settings` **any** An object containing the options for validation
+    -   `settings.name`  The name of the variable to check
+    -   `settings.value`  The bounds value
+    -   `settings.required`  Whether it's required (allow undefined values or not)
+
+Returns **any** A default error message or an empty array
+
 ### setVariable
 
 This will store a value in the Apigee flow

@@ -13,6 +13,7 @@ export {
 	validateBoolean,
 	validateEnum,
 	validateMultipleEnum,
+	validateBounds,
 } from './pre-flow';
 
 export {
