@@ -1,25 +1,19 @@
 /* @flow */
-
-export {
-	getBody,
-	getQueryParam,
-	getQueryParams,
-	setQueryParam,
-	setQueryParams,
-	validateQueryParams,
-	validateValues,
-	setVariable,
-	setVariables,
-	validateBoolean,
-	validateEnum,
-	validateMultipleEnum,
-	validateBounds,
-} from './pre-flow';
-
-export {
-	getProxyResponse,
-	setResponse,
-	getVariable,
-	getVariables,
-	logMessage,
-} from './post-flow';
+export {getBody} from './getBody';
+export {getQueryParam} from './getQueryParam';
+export {getQueryParams} from './getQueryParams';
+export {setQueryParam} from './setQueryParam';
+export {setQueryParams} from './setQueryParams';
+export {validateQueryParams} from './validateQueryParams';
+export {validateValues} from './validateValues';
+export {setVariable} from './setVariable';
+export {setVariables} from './setVariables';
+export {validateBoolean} from './validateBoolean';
+export {validateEnum} from './validateEnum';
+export {validateMultipleEnum} from './validateMultipleEnum';
+export {validateBounds} from './validateBounds';
+export {getProxyResponse} from './getProxyResponse';
+export {setResponse} from './setResponse';
+export {getVariable} from './getVariable';
+export {getVariables} from './getVariables';
+export {logMessage} from './logMessage';

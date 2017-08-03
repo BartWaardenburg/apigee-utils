@@ -43,20 +43,6 @@ This will get a set of queryParams from the passed url string
 
 Returns **{}** An object containing values for the passed in queryparams
 
-### createQueryParams
-
-This will convert an object with key value pairs to a new object with key value pairs
-
-**Parameters**
-
--   `queryParams` **{}** An object containing key value pairs to be used as query parameters
--   `settings` **any** Object containing the settings for creating the queryparams
-    -   `settings.renamer`  The name of the keys to rename. In a format of oldname: newname
-    -   `settings.defaultValues`  The value to return when no value is found. The keys of the default values should be identical to the queryparam keys.
-    -   `settings.transformer`  A transformer object contains functions which take a value and return a new value. The keys of the transformer should be identical to the queryparam keys.
-
-Returns **{}** 
-
 ### setQueryParam
 
 This will set a query parameter to the provided value
@@ -78,23 +64,19 @@ This will convert an object with key value pairs to query parameters
 
 Returns **void** 
 
-### validateQueryParams
+### validateValues
 
 This will validate a set of query parameters and will set a error variable in the apigee with an errorpayload variable which can be send down to the client
 It is advised to set up a raise on error policy which will return the payload when the error variable == true
 
 **Parameters**
 
--   `queryParams` **QueryParams** The keys the values to get are stored with
+-   `values` **{}** The keys the values to get are stored with
 -   `settings` **any** Object containing the settings for getting the variables
     -   `settings.validator`  The validator is an object containing functions which take a value and tests whether the value matches to required format returning true for a valid parameter and false for invalid. Or it can return a custom error message as a string. It is also possible to return mutliple error messages as an array of strings. The keys of the validator should be identical to the queryparam keys.
     -   `settings.prefix`  The prefix to use for the variables which will be used to set the potential error messages
 
 Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** A boolean indicating whether the query param were valid or not
-
-### validateValues
-
-Works just like validateQueryParams but has a more generic name
 
 ### createErrorObject
 
@@ -107,6 +89,31 @@ This will create the default error message
 -   `message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The custom message to use
 
 Returns **{title: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), message: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String), source: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)}** A default error object
+
+### setVariable
+
+This will store a value in the Apigee flow
+
+**Parameters**
+
+-   `key` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The key the value should be stored in
+-   `value` **any** The value to store
+-   `settings` **any** Object containing the settings for setting the variable
+    -   `settings.prefix`  A prefix which is used to store the value with
+
+Returns **void** 
+
+### setVariables
+
+This will store a set of values in the Apigee flow
+
+**Parameters**
+
+-   `variables` **{}** An object containing key value pairs to store
+-   `settings` **any** Object containing the settings for setting the variables
+    -   `settings.prefix`  A prefix which is used to store the value with
+
+Returns **void** 
 
 ### validateBoolean
 
@@ -162,41 +169,6 @@ This will do a simple check if the passed string of values is a valid latitude a
 
 Returns **any** A default error message or an empty array
 
-### setVariable
-
-This will store a value in the Apigee flow
-
-**Parameters**
-
--   `key` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The key the value should be stored in
--   `value` **any** The value to store
--   `settings` **any** Object containing the settings for setting the variable
-    -   `settings.prefix`  A prefix which is used to store the value with
-
-Returns **void** 
-
-### setVariables
-
-This will store a set of values in the Apigee flow
-
-**Parameters**
-
--   `variables` **{}** An object containing key value pairs to store
--   `settings` **any** Object containing the settings for setting the variables
-    -   `settings.prefix`  A prefix which is used to store the value with
-
-Returns **void** 
-
-### logMessage
-
-This will log a message to the syslog variable
-
-**Parameters**
-
--   `additionalLogvalues` **{}?** Object containing additional key values to be logged
-
-Returns **void** 
-
 ### getProxyResponse
 
 This will get the response from the proxy
@@ -247,3 +219,13 @@ This will get a set of values from the Apigee flow
     -   `settings.parser`  The parser is an object containing functions which take a value and transforms it to return something else. The keys of the parser should be identical to the variable keys.
 
 Returns **{}** The values parsed from the apigee flow
+
+### logMessage
+
+This will log a message to the syslog variable
+
+**Parameters**
+
+-   `additionalLogvalues` **{}?** Object containing additional key values to be logged
+
+Returns **void** 
