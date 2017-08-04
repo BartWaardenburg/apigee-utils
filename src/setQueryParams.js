@@ -7,3 +7,5 @@ import setQueryParam from './setQueryParam';
  */
 export const setQueryParams = (queryParams: {[key: string]: any}): void =>
 	Object.keys(queryParams).forEach((key: string): void => setQueryParam(key, queryParams[key]));
+
+export default setQueryParams;
