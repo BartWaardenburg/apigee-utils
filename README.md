@@ -8,7 +8,21 @@ A set of utility functions to ease javascript development on the Apigee Edge api
 npm i -S apigee-utils
 ```
 
+```bash
+yarn add apigee-utils
+```
+
 ## How to use?
+
+The utilities can be imported directly by using the modular build or all of them directly.
+
+```javascript
+import getBody from 'apigee-utils/getBody';
+```
+
+```javascript
+import {getBody} from 'apigee-utils';
+```
 
 ## Reference
 

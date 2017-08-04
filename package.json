@@ -2,10 +2,10 @@
   "name": "apigee-utils",
   "version": "3.4.0",
   "description": "A set of utility functions to ease javascript development on the Apigee Edge api platform",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
     "prepare": "npm run lint && npm run flow && npm run test && npm run build",
-    "build": "babel ./src -d ./lib --ignore '.spec,.interface'",
+    "build": "babel ./src -d ./ --ignore '.spec,.interface'",
     "lint": "eslint src/**/*.js",
     "flow": "flow check",
     "test": "jest",
