@@ -20,3 +20,4 @@ var setQueryParams = exports.setQueryParams = function setQueryParams(queryParam
     return (0, _setQueryParam2.default)(key, queryParams[key]);
   });
 };
+exports.default = setQueryParams;
