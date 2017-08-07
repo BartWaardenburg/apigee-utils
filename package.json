@@ -1,6 +1,6 @@
 {
   "name": "apigee-utils",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "A set of utility functions to ease javascript development on the Apigee Edge api platform",
   "main": "index.js",
   "scripts": {
