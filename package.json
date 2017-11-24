@@ -2,14 +2,19 @@
   "name": "apigee-utils",
   "version": "4.1.0",
   "description": "A set of utility functions to ease javascript development on the Apigee Edge api platform",
-  "main": "index.js",
+	"main": "index.js",
+	"module": "src/index.js",
+	"files": ["dist", "src"],
+	"directories": {
+		"lib": "src"
+	},
   "scripts": {
-    "prepare": "npm run lint && npm run flow && npm run test && npm run build",
+    "prepare": "yarn run lint && yarn run flow && yarn run test && yarn run build",
     "build": "babel ./src -d ./ --ignore '.spec,.interface'",
     "lint": "eslint src/**/*.js",
     "flow": "flow check",
-    "test": "jest",
-    "test:watch": "npm run test -- --watch",
+    "test": "jest --coverage",
+    "test:watch": "yarn run test --watch",
     "docs": "documentation readme ./src/index.js --section 'Reference'"
   },
   "repository": {
@@ -42,7 +47,7 @@
     "eslint-plugin-flowtype": "^2.35.0",
     "eslint-plugin-jest": "^20.0.3",
     "flow-bin": "^0.49.1",
-    "jest": "^20.0.4"
-  },
-  "dependencies": {}
+    "jest": "^20.0.4",
+    "codecov": "^3.0.0"
+  }
 }
