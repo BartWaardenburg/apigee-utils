@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/BartWaardenburg/apigee-utils.svg?style=svg)](https://circleci.com/gh/BartWaardenburg/apigee-utils)
+
 # apigee-utils
 
 A set of utility functions to ease javascript development on the Apigee Edge api platform
